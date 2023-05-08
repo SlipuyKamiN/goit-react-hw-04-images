@@ -1,14 +1,12 @@
 import PropTypes from 'prop-types';
 import { GalleryItem, GalleryItemImage } from './ImageGalleryItem.styled';
 import { Modal } from 'components/Modal/Modal';
-import { PureComponent } from 'react';
+import { useState } from 'react';
 
-export class ImageGalleryItem extends PureComponent {
-  state = {
-    modalOpen: false,
-  };
+export const ImageGalleryItem = ({ webformatURL, largeImageURL }) => {
+  const [modalOpen, setModalOpen] = useState(false);
 
-  toggleModal = event => {
+  const toggleModal = event => {
     const { dataset, nodeName } = event.target;
 
     if (
@@ -16,7 +14,9 @@ export class ImageGalleryItem extends PureComponent {
       (dataset.backdrop && nodeName !== 'IMG') ||
       dataset.openModal
     ) {
-      return this.setState(prevState => ({ modalOpen: !prevState.modalOpen }));
+      //Чи можна так? Це простіший і скорочений варіант і робить те саме.
+      return setModalOpen(!modalOpen);
+      // return setModalOpen(prevModalOpen => !prevModalOpen);
     }
 
     if (nodeName === 'IMG') {
@@ -24,26 +24,22 @@ export class ImageGalleryItem extends PureComponent {
     }
   };
 
-  render() {
-    const { webformatURL, largeImageURL } = this.props;
-
-    return (
-      <>
-        <GalleryItem>
-          <GalleryItemImage
-            src={webformatURL}
-            data-open-modal
-            loading="lazy"
-            onClick={this.toggleModal}
-          />
-        </GalleryItem>
-        {this.state.modalOpen && (
-          <Modal imageURL={largeImageURL} toggleModal={this.toggleModal} />
-        )}
-      </>
-    );
-  }
-}
+  return (
+    <>
+      <GalleryItem>
+        <GalleryItemImage
+          src={webformatURL}
+          data-open-modal
+          loading="lazy"
+          onClick={toggleModal}
+        />
+      </GalleryItem>
+      {modalOpen && (
+        <Modal imageURL={largeImageURL} toggleModal={toggleModal} />
+      )}
+    </>
+  );
+};
 
 ImageGalleryItem.propTypes = {
   webformatURL: PropTypes.string.isRequired,

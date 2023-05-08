@@ -72,7 +72,9 @@ export const App = () => {
   };
 
   const handleLoadMore = () => {
+    //Чи можна так? Це простіший і скорочений варіант і робить те саме.
     setPage(page + 1);
+    // setPage(prevPage => prevPage + 1);
   };
 
   return (
