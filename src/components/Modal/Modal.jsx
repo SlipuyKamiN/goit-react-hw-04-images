@@ -8,8 +8,7 @@ export const Modal = ({ imageURL, toggleModal }) => {
     return () => {
       window.removeEventListener('keydown', toggleModal);
     };
-  }, [toggleModal]);
-  // тут не треба цього в залежностях, але по іншому - ESLint свариться і не деплоїться
+  });
 
   return (
     <Backdrop onClick={toggleModal} data-backdrop>
